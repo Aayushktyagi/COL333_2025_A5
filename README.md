@@ -39,7 +39,7 @@ Note: Details for running the C++ agent will be shared later. The same game will
 
 ### Human vs Human
 ```sh
-python gameEngine.py --mode hvh
+python gameEngine.py --mode hvh --board-size small
 ```
 ### Human vs AI
 
