@@ -34,6 +34,7 @@ Here are the instructions used to match ai or human players against each other.
 - `gameEngine.py`: It is an instance of the game. It can be run locally on your environment. You can run in GUI or CLI mode.
 - `agent.py`: It consists of the implementations of the Random Agent. 
 - `student_agent.py` : You need to implement your agent here. Some predefined function has been given.
+-  Board size can be small medium and large. Small being 13x12, Medium being 15x14 and large being 17x16. 
 
 Note: Details for running the C++ agent will be shared later. The same game will be used in the second phase in Assigment 5. And seperate details will be shared for the Assigment 5.
 
