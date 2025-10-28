@@ -34,13 +34,12 @@ Here are the instructions used to match ai or human players against each other.
 - `gameEngine.py`: It is an instance of the game. It can be run locally on your environment. You can run in GUI or CLI mode.
 - `agent.py`: It consists of the implementations of the Random Agent. 
 - `student_agent.py` : You need to implement your agent here. Some predefined function has been given.
--  Board size can be small medium and large. Small being 13x12, Medium being 15x14 and large being 17x16. 
 
 Note: Details for running the C++ agent will be shared later. The same game will be used in the second phase in Assigment 5. And seperate details will be shared for the Assigment 5.
 
 ### Human vs Human
 ```sh
-python gameEngine.py --mode hvh --board-size small
+python gameEngine.py --mode hvh
 ```
 ### Human vs AI
 
@@ -57,3 +56,16 @@ python gameEngine.py --mode aivai --circle random --square student
 ```sh
 python gameEngine.py --mode aivai --circle random --square student --nogui
 ```
+
+### Create server
+```sh
+bash start_server.sh 8080
+```
+```sh
+python bot_client.py circle 8080 --strategy student
+```
+
+```sh
+python bot_client.py square 8080 --strategy student --server 10.10.10.10
+```
+--server will require the IP of system on which server is running. Provide that IP and it should connect. 
