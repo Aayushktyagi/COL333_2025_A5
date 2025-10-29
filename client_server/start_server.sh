@@ -13,8 +13,7 @@ NC='\033[0m' # No Color
 # Set default port
 PORT=${1:-8080}
 
-# Change to the correct directory
-cd /Users/aayushtyagi/Aayush/PhD/Learning/COL333_TA_25A/A5/COL333_2025_A5_internal/client_server
+
 
 echo -e "${BLUE}🎮 River and Stones Web Server Startup${NC}"
 echo -e "${BLUE}=====================================${NC}"
@@ -24,18 +23,6 @@ echo ""
 # Initialize conda for bash shell
 eval "$(conda shell.bash hook)"
 
-# Activate conda environment
-echo -e "${YELLOW}Activating conda environment col333_TA...${NC}"
-conda activate col333_TA
-
-# Verify conda environment is activated
-if [ "$CONDA_DEFAULT_ENV" != "col333_TA" ]; then
-    echo -e "${RED}❌ Failed to activate conda environment col333_TA${NC}"
-    exit 1
-fi
-
-echo -e "${GREEN}✓ Conda environment activated: $CONDA_DEFAULT_ENV${NC}"
-echo -e "${GREEN}✓ Python path: $(which python)${NC}"
 
 # Check if required packages are installed
 echo -e "${YELLOW}📦 Checking dependencies...${NC}"
