@@ -61,11 +61,13 @@ python gameEngine.py --mode aivai --circle random --square student --nogui
 ```sh
 bash start_server.sh 8080
 ```
+Ensure that conda env is set before you start the server. Once server starts, you can navigate to http://localhost:8080" or whatever port you choose. Once to go to webpage, select boardsize and then click start game. Then we move to starting bots using following commands.
+#### Starting first bot
 ```sh
 python bot_client.py circle 8080 --strategy student
 ```
-
+#### Running Second bot
 ```sh
 python bot_client.py square 8080 --strategy student --server 10.10.10.10
 ```
---server will require the IP of system on which server is running. Provide that IP and it should connect. 
+--server will require the IP of system on which server is running. You can use ipconfig/ifconfig to identify the IP address. Provide that IP and it should connect. 
