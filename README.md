@@ -8,15 +8,13 @@ This is a course assignment for the graduate-level Artificial Intelligence cours
 ## Rules
 You can find the documentation to get all the rules of the game.
 
-## Updates
-[15-09-2025] Uploaded the sample files for the C++ users. Please checkout the [Read ME](./c++_sample_files/README.md) for further details. Seperate Submission details will be updated for C++ users.
-[19-09-2025] Providing the Self and Opponents time left as an argument to the function from the Game Engine.
-
 ## Dependencies
 - Python 3.9
 - Pygame
 - Numpy 
 - Scipy
+- flask
+- python-socketio
 
 
 ## Setting up the Environment
@@ -34,6 +32,8 @@ Here are the instructions used to match ai or human players against each other.
 - `gameEngine.py`: It is an instance of the game. It can be run locally on your environment. You can run in GUI or CLI mode.
 - `agent.py`: It consists of the implementations of the Random Agent. 
 - `student_agent.py` : You need to implement your agent here. Some predefined function has been given.
+- `web_server.py` : Use it to start the webserver.
+- `bot_client.py`: It calls student_agent to get the moves while interacting with the web server. 
 
 Note: Details for running the C++ agent will be shared later. The same game will be used in the second phase in Assigment 5. And seperate details will be shared for the Assigment 5.
 
