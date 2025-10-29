@@ -81,9 +81,4 @@ python bot_client.py square 8080 --strategy student
 lsof -i :8080 | grep LISTEN | awk '{print $2}' | xargs kill -9
 ```
 
-**Flask import error:**
-Ensure conda environment is activated:
-```bash
-eval "$(conda shell.bash hook)"
-conda activate col333_TA
-```
+
