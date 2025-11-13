@@ -195,6 +195,14 @@ class GameCoordinator:
             # Fallback: measure time since last move (includes network latency)
             elapsed_time = time.time() - game["last_move_time"]
         
+        # Validate and apply move BEFORE deducting time
+        # This ensures server-side validation overhead doesn't count against player's clock
+        success, message = validate_and_apply_move(
+            game["board"], move, player, 
+            game["rows"], game["cols"], game["score_cols"]
+        )
+        
+        # Now deduct time after validation
         game["players"][player]["time_left"] -= elapsed_time
         
         # Check for timeout
@@ -205,12 +213,6 @@ class GameCoordinator:
             result = {"success": True, "timeout": True, "winner": winner}
             self._broadcast_game_update(game)
             return result
-        
-        # Validate and apply move
-        success, message = validate_and_apply_move(
-            game["board"], move, player, 
-            game["rows"], game["cols"], game["score_cols"]
-        )
         
         if success:
             # Log the move
