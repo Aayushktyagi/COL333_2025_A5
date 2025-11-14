@@ -11,10 +11,30 @@ def in_bounds(x: int, y: int, rows: int, cols: int) -> bool:
     return 0 <= x < cols and 0 <= y < rows
 
 def score_cols_for(cols: int) -> List[int]:
-    """Get the column indices for scoring areas."""
-    w = 4
+    """Get the column indices for scoring areas.
+    
+    Scale scoring area width with board size:
+    - For 12 cols: 4 scoring cols (1/3)
+    - For 14 cols: 5 scoring cols  
+    - For 16 cols: 6 scoring cols
+    """
+    if cols <= 12:
+        w = 4
+    elif cols <= 14:
+        w = 5
+    else:
+        w = 6
     start = max(0, (cols - w) // 2)
     return list(range(start, start + w))
+
+def get_win_count(cols: int) -> int:
+    """Get the number of stones needed to win based on board size."""
+    if cols <= 12:
+        return 4
+    elif cols <= 14:
+        return 5
+    else:
+        return 6
 
 def top_score_row() -> int:
     """Get the row index for Circle's scoring area."""
