@@ -129,7 +129,8 @@ def score_cols_for(cols: int) -> List[int]:
         w = 5
     else:
         w = 6
-    start = max(0, (cols - w) // 2)
+    # start = max(0, (cols - w) // 2)
+    start = 4
     return list(range(start, start + w))
 
 
@@ -183,7 +184,7 @@ def count_reachable_in_one(board, player, rows, cols, score_cols) -> int:
             if p and p.owner == player and p.side == "stone":
                 if is_own_score_cell(x, y, player, rows, cols, score_cols):
                     continue
-                info = compute_valid_moves(board, x, y, player, rows, cols, score_cols)
+                info = compute_valid_targets(board, x, y, player, rows, cols, score_cols)
                 # moves is a set of (tx,ty)
                 for (tx, ty) in info.get('moves', set()):
                     if is_own_score_cell(tx, ty, player, rows, cols, score_cols):
@@ -334,7 +335,7 @@ def get_river_flow_destinations(board, rx, ry, sx, sy, player, rows, cols, score
 
 
 # ---------------- Compute valid targets (authoritative) ----------------
-def compute_valid_moves(board, sx, sy, player, rows, cols, score_cols):
+def compute_valid_targets(board, sx, sy, player, rows, cols, score_cols):
     dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
     moves = set()
     pushes = []
@@ -399,7 +400,7 @@ def validate_and_apply_move(board, move, player, rows, cols, score_cols):
         if piece is None or piece.owner != player:
             return False, "invalid piece"
         if board[ty][tx] is None:
-            valid_acts = compute_valid_moves(board, fx, fy, player, rows, cols, score_cols)
+            valid_acts = compute_valid_targets(board, fx, fy, player, rows, cols, score_cols)
             if (tx, ty) not in valid_acts['moves']:
                 return False, "invalid move location"
             board[ty][tx] = piece
@@ -430,7 +431,7 @@ def validate_and_apply_move(board, move, player, rows, cols, score_cols):
             return False, "pushed_to not empty"
         if piece.side == "river" and board[ty][tx].side == "river":
             return False, "rivers cannot push rivers"
-        info = compute_valid_moves(board, fx, fy, player, rows, cols, score_cols)
+        info = compute_valid_targets(board, fx, fy, player, rows, cols, score_cols)
         valid_pairs = info['pushes']
         if ((tx, ty), (px, py)) not in valid_pairs:
             return False, "push pair invalid"
@@ -489,7 +490,7 @@ def generate_all_moves(board, player, rows, cols, score_cols):
             if not p or p.owner != player:
                 continue
 
-            valid_moves = compute_valid_moves(board, x, y, player, rows, cols, score_cols)
+            valid_moves = compute_valid_targets(board, x, y, player, rows, cols, score_cols)
             for move_coord in valid_moves['moves']:
                 moves.append({"action": "move", "from": [x, y], "to": list(move_coord)})
 
@@ -948,14 +949,14 @@ def run_gui(mode: str, circle_strategy: str, square_strategy: str, load_file: Op
                     msg = "Cleared"
                 if selected and ev.key == pygame.K_m:
                     action_mode = "move"
-                    info = compute_valid_moves(board, selected[0], selected[1], current, rows, cols, score_cols)
+                    info = compute_valid_targets(board, selected[0], selected[1], current, rows, cols, score_cols)
                     highlights = set(info['moves'])
                     msg = "Move mode: click a highlighted dest"
                 if selected and ev.key == pygame.K_p:
                     action_mode = "push"
                     push_stage = 0
                     push_candidate = None
-                    info = compute_valid_moves(board, selected[0], selected[1], current, rows, cols, score_cols)
+                    info = compute_valid_targets(board, selected[0], selected[1], current, rows, cols, score_cols)
                     own_finals = set([of for of, pf in info['pushes']])
                     highlights = set(own_finals)
                     msg = "Push mode: click own_final"
@@ -1092,7 +1093,7 @@ def run_gui(mode: str, circle_strategy: str, square_strategy: str, load_file: Op
                 else:
                     sx, sy = selected
                     if action_mode == "move":
-                        info = compute_valid_moves(board, sx, sy, current, rows, cols, score_cols)
+                        info = compute_valid_targets(board, sx, sy, current, rows, cols, score_cols)
                         if (rx, ry) not in info['moves']:
                             msg = "Invalid target"
                         else:
@@ -1135,7 +1136,7 @@ def run_gui(mode: str, circle_strategy: str, square_strategy: str, load_file: Op
                                 turn_start = time.time()  # NEW: reset for next turn
 
                     elif action_mode == "push":
-                        info = compute_valid_moves(board, sx, sy, current, rows, cols, score_cols)
+                        info = compute_valid_targets(board, sx, sy, current, rows, cols, score_cols)
                         push_pairs = info['pushes']
                         own_finals = set([of for of, pf in push_pairs])
                         if push_stage == 0 or push_stage is None:
@@ -1230,7 +1231,7 @@ def run_gui(mode: str, circle_strategy: str, square_strategy: str, load_file: Op
                             msg = "Press H/V for stone->river in flip mode"
 
                     else:
-                        info = compute_valid_moves(board, sx, sy, current, rows, cols, score_cols)
+                        info = compute_valid_targets(board, sx, sy, current, rows, cols, score_cols)
                         if (rx, ry) in info['moves']:
                             if board[ry][rx] is None:
                                 m = {"action": "move", "from": [sx, sy], "to": [rx, ry]}
