@@ -169,7 +169,7 @@ def get_valid_moves_for_piece(board, x: int, y: int, player: str, rows: int, col
     out = []
     for m in moves:
         out.append({'type': 'move', 'from': [x, y], 'to': m})
-    for p in pushes:
+    for push in pushes:
         out.append({'type': 'push', 'from': [x, y], 'to': p[0], 'pushed_to': p[1]})
     if p.side == "stone":
         out.append({"action": "flip", "from": [x, y], "orientation": "horizontal"})
