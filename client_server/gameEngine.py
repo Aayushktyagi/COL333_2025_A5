@@ -129,8 +129,8 @@ def score_cols_for(cols: int) -> List[int]:
         w = 5
     else:
         w = 6
-    # start = max(0, (cols - w) // 2)
-    start = 4
+    start = max(0, (cols - w) // 2)
+    #start = 4
     return list(range(start, start + w))
 
 
